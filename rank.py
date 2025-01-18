@@ -1,5 +1,6 @@
 import os
-from pyserini.index.lucene import IndexReader
+import json
+from pyserini.index.lucene import IndexReader, Document
 from pyserini.analysis import Analyzer, get_lucene_analyzer
 from pyserini.search import get_topics_with_reader, LuceneSearcher
 from pyserini.vectorizer import TfidfVectorizer
@@ -42,6 +43,7 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
         hits = searcher.search(topic,k=top_k) # k=1000 is the number of retrieved documents
         # Store results in TREC format for each topic
         results[topic_id] = [(hit.docid, hit.lucene_docid, i+1, hit.score) for i, hit in enumerate(hits)]
+
     # Now you can save the results to a file in the TREC format:
     output_file = f'./results/run_{run_number}_{method}.res'
     if not os.path.exists('./results'):
@@ -60,5 +62,5 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
                     f.write(f"{topic_id} Q0 {docid} {lucene_docid} {rank} {score:.4f} run{run_number}\n")
 
 #rank_documents(1, 'rm3')
-rank_documents(2, 'bm25')
+rank_documents(2, 'bm25', stemmer="krovetz", top_k=5000)
 #rank_documents(3, 'qld')
