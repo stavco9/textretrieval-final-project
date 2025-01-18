@@ -56,8 +56,8 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
         output_file = f'./results/run_lucene_docid_{run_number}_{method}.res'
         with open(output_file, 'w') as f:
             for topic_id, hits in sorted_results.items():
-                for rank, (_, lucene_docid, _, score) in enumerate(hits, start=1):
-                    f.write(f"{topic_id} Q0 {lucene_docid} {rank} {score:.4f} run{run_number}\n")
+                for rank, (docid, lucene_docid, _, score) in enumerate(hits, start=1):
+                    f.write(f"{topic_id} Q0 {docid} {lucene_docid} {rank} {score:.4f} run{run_number}\n")
 
 #rank_documents(1, 'rm3')
 rank_documents(2, 'bm25')
