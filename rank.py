@@ -2,6 +2,7 @@ import os
 from pyserini.index.lucene import IndexReader
 from pyserini.analysis import Analyzer, get_lucene_analyzer
 from pyserini.search import get_topics_with_reader, LuceneSearcher
+from pyserini.vectorizer import TfidfVectorizer
 
 # Load TSV-format topics
 topic_file_path = "./files/queriesROBUST.txt"
@@ -21,6 +22,7 @@ assert len(queries) == 249, 'missing queries'
 def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
     # Initialize the searcher with the path to your stemmed index
     searcher = LuceneSearcher(index_path)
+    #vectorizer = TfidfVectorizer(index_path, min_df=3)
     # specify custom analyzer for the query processing step to match the way the index was built
     analyzer = get_lucene_analyzer(stemmer=stemmer, stopwords=False) #Ensure no stopwords are removed from the query
     searcher.set_analyzer(analyzer)
@@ -39,8 +41,7 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
     for topic_id, topic in queries.items():
         hits = searcher.search(topic,k=top_k) # k=1000 is the number of retrieved documents
         # Store results in TREC format for each topic
-        results[topic_id] = [(hit.docid, i+1, hit.score) for i, hit in enumerate(hits)]
-    
+        results[topic_id] = [(hit.docid, hit.lucene_docid, i+1, hit.score) for i, hit in enumerate(hits)]
     # Now you can save the results to a file in the TREC format:
     output_file = f'./results/run_{run_number}_{method}.res'
     if not os.path.exists('./results'):
@@ -48,9 +49,16 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
     sorted_results = dict(sorted(results.items()))
     with open(output_file, 'w') as f:
         for topic_id, hits in sorted_results.items():
-            for rank, (docid, _, score) in enumerate(hits, start=1):
+            for rank, (docid, _, _, score) in enumerate(hits, start=1):
                 f.write(f"{topic_id} Q0 {docid} {rank} {score:.4f} run{run_number}\n")
 
-rank_documents(1, 'rm3')
-#rank_documents(2, 'bm25')
+    if (method == "bm25"):
+        output_file = f'./results/run_lucene_docid_{run_number}_{method}.res'
+        with open(output_file, 'w') as f:
+            for topic_id, hits in sorted_results.items():
+                for rank, (_, lucene_docid, _, score) in enumerate(hits, start=1):
+                    f.write(f"{topic_id} Q0 {lucene_docid} {rank} {score:.4f} run{run_number}\n")
+
+#rank_documents(1, 'rm3')
+rank_documents(2, 'bm25')
 #rank_documents(3, 'qld')
