@@ -4,7 +4,8 @@ import json
 from pyserini.index.lucene import (
     # IndexReader,
     LuceneIndexReader,
-), Document
+    Document
+)
 from pyserini.analysis import Analyzer, get_lucene_analyzer
 from pyserini.search import (
     get_topics_with_reader,
@@ -170,4 +171,4 @@ def rank_documents_vector(run_number, top_k=1000, stemmer="krovetz"):
 rank_documents(1, "rm3")
 rank_documents(2, "bm25")
 rank_documents(3, "qld")
-rank_documents_vector(run_number=4, top_k=1000, stemmer="krovetz")
+rank_documents_vector(run_number=5, top_k=1000, stemmer="krovetz")
