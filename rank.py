@@ -163,5 +163,4 @@ def rank_documents_vector(run_number, top_k=1000, stemmer="krovetz"):
 
 #rank_documents(run_number=1, method="rm3")
 #rank_documents(run_number=10, method="bm25")
-#rank_documents(run_number=3, method="qld")
-#rank_documents_vector(run_number=5, top_k=1000, stemmer="krovetz")
+#rank_documents_vector(run_number=2, top_k=1000, stemmer="krovetz")
