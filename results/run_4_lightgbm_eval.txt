@@ -1,7 +1,7 @@
 Downloading https://search.maven.org/remotecontent?filepath=uk/ac/gla/dcs/terrierteam/jtreceval/0.0.5/jtreceval-0.0.5-jar-with-dependencies.jar to /home/ubuntu/.cache/pyserini/eval/jtreceval-0.0.5-jar-with-dependencies.jar...
 /home/ubuntu/.cache/pyserini/eval/jtreceval-0.0.5-jar-with-dependencies.jar already exists!
 Skipping download.
-Running command: ['java', '-jar', '/home/ubuntu/.cache/pyserini/eval/jtreceval-0.0.5-jar-with-dependencies.jar', '-q', './files/qrels_50_Queries', './results/run_4_lightgbm_pilot.res']
+Running command: ['java', '-jar', '/home/ubuntu/.cache/pyserini/eval/jtreceval-0.0.5-jar-with-dependencies.jar', '-q', './files/qrels_50_Queries', './results/run_4_lightgbm.res']
 Results:
 num_ret               	301	1000
 num_rel               	301	448
