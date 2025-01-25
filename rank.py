@@ -75,20 +75,13 @@ def rank_documents(run_number, method="bm25", stemmer="krovetz", top_k=1000):
             for rank, (docid, _, _, score) in enumerate(hits, start=1):
                 f.write(f"{topic_id} Q0 {docid} {rank} {score:.4f} run{run_number}\n")
 
-    if (method == "bm25"):
-        output_file = f'./results/run_lucene_docid_{run_number}_{method}.res'
-        with open(output_file, 'w') as f:
-            for topic_id, hits in sorted_results.items():
-                for rank, (docid, lucene_docid, _, score) in enumerate(hits, start=1):
-                    f.write(f"{topic_id} Q0 {docid} {lucene_docid} {rank} {score:.4f} run{run_number}\n")
-
 
 def rank_documents_vector(run_number, top_k=1000, stemmer="krovetz"):
     """
     Document ranking using sparse matrix operations and precomputations.
     """
     # Initialize index reader and get document IDs
-    index_reader = LuceneIndexReader(index_path)
+    index_reader = None#LuceneIndexReader(index_path)
     num_docs = index_reader.stats()["documents"]
     all_docids = [
         index_reader.convert_internal_docid_to_collection_docid(i)
@@ -168,7 +161,7 @@ def rank_documents_vector(run_number, top_k=1000, stemmer="krovetz"):
     print(f"\nOptimized vector-based run file saved to {output_file}")
 
 
-rank_documents(1, "rm3")
-rank_documents(2, "bm25")
-rank_documents(3, "qld")
-rank_documents_vector(run_number=5, top_k=1000, stemmer="krovetz")
+#rank_documents(run_number=1, method="rm3")
+#rank_documents(run_number=10, method="bm25")
+#rank_documents(run_number=3, method="qld")
+#rank_documents_vector(run_number=5, top_k=1000, stemmer="krovetz")
