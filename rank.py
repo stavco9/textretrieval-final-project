@@ -1,11 +1,11 @@
 import os
 import pickle
 import json
-from pyserini.index.lucene import (
+#from pyserini.index.lucene import (
     # IndexReader,
-    LuceneIndexReader,
-    Document
-)
+#    LuceneIndexReader,
+#    Document
+#)
 from pyserini.analysis import Analyzer, get_lucene_analyzer
 from pyserini.search import (
     get_topics_with_reader,
@@ -161,6 +161,6 @@ def rank_documents_vector(run_number, top_k=1000, stemmer="krovetz"):
     print(f"\nOptimized vector-based run file saved to {output_file}")
 
 
-#rank_documents(run_number=1, method="rm3")
+rank_documents(run_number=1, method="rm3")
 #rank_documents(run_number=10, method="bm25")
 #rank_documents_vector(run_number=2, top_k=1000, stemmer="krovetz")
